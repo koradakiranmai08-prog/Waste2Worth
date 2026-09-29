@@ -1,0 +1,6 @@
+{
+  "name": "Waste2Worth",
+  "description": "Intelligent industrial waste management, recycling, and water pollution prevention platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
