@@ -12,15 +12,17 @@ import {
   Recycle, 
   Cpu, 
   ChevronDown,
-  UserCheck
+  UserCheck,
+  Bot
 } from 'lucide-react';
 import { UserRole } from '../../types';
 
 interface NavbarProps {
   onOpenNotifications: () => void;
+  onOpenChat?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenNotifications }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenNotifications, onOpenChat }) => {
   const { 
     activeTab, 
     setActiveTab, 
@@ -124,6 +126,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNotifications }) => {
             <span>Dashboard</span>
           </button>
 
+          {/* AI Chat Assistant Button */}
+          {onOpenChat && (
+            <button
+              onClick={onOpenChat}
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-lg bg-[#162437] hover:bg-[#1E3048] text-[#22C55E] border border-[#22C55E]/30 hover:border-[#22C55E] transition-all shadow-sm group"
+              title="Open Waste2Worth AI Assistant (powered by n8n)"
+            >
+              <Bot className="w-3.5 h-3.5 text-[#22C55E] group-hover:scale-110 transition-transform" />
+              <span className="hidden md:inline">AI Chat</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
+            </button>
+          )}
+
           {/* In-App Notifications Button */}
           <button
             onClick={onOpenNotifications}
@@ -224,6 +239,21 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenNotifications }) => {
             </button>
           ))}
           <div className="pt-3 border-t border-[#29394D] flex flex-col gap-2">
+            {onOpenChat && (
+              <button
+                onClick={() => {
+                  onOpenChat();
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full text-left px-3 py-2 text-sm text-[#22C55E] bg-[#162437] border border-[#22C55E]/30 rounded-lg font-medium flex items-center justify-between"
+              >
+                <span className="flex items-center gap-2">
+                  <Bot className="w-4 h-4 text-[#22C55E]" />
+                  Waste2Worth AI Assistant (n8n)
+                </span>
+                <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse" />
+              </button>
+            )}
             <button
               onClick={() => handleNavClick('dashboard')}
               className="w-full text-left px-3 py-2 text-sm text-[#F8FAFC] bg-[#162437] rounded-lg font-medium flex items-center gap-2"

@@ -23,15 +23,21 @@ import { AdminPanel } from './components/admin/AdminPanel';
 import { WasteRegistrationModal } from './components/waste/WasteRegistrationModal';
 import { AuthModal } from './components/auth/AuthModal';
 import { NotificationDrawer } from './components/notifications/NotificationDrawer';
+import { N8nChatWidget } from './components/chat/N8nChatWidget';
+import { N8nChatModal } from './components/chat/N8nChatModal';
 
 const AppContent: React.FC = () => {
   const { activeTab, setActiveTab } = useApp();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [chatModalOpen, setChatModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0B1220] text-[#F8FAFC]">
       {/* Top Bar Contract Navbar */}
-      <Navbar onOpenNotifications={() => setNotificationsOpen(true)} />
+      <Navbar 
+        onOpenNotifications={() => setNotificationsOpen(true)} 
+        onOpenChat={() => setChatModalOpen(true)}
+      />
 
       {/* Main View Router */}
       <div className="flex-1">
@@ -122,6 +128,11 @@ const AppContent: React.FC = () => {
       <NotificationDrawer 
         isOpen={notificationsOpen} 
         onClose={() => setNotificationsOpen(false)} 
+      />
+      <N8nChatWidget />
+      <N8nChatModal 
+        isOpen={chatModalOpen} 
+        onClose={() => setChatModalOpen(false)} 
       />
 
       {/* Footer */}

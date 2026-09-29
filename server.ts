@@ -61,7 +61,11 @@ IMPORTANT RULES:
    - Other Industrial By-Products
 4. Clearly state that this is a preliminary AI screening requiring verification by qualified personnel.`;
 
-        const response = await ai.models.generateContent({
+        const timeoutPromise = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('AI generation timed out')), 9000)
+        );
+
+        const generatePromise = ai.models.generateContent({
           model: 'gemini-3.8-flash',
           contents: prompt,
           config: {
@@ -120,6 +124,8 @@ IMPORTANT RULES:
             }
           }
         });
+
+        const response = await Promise.race([generatePromise, timeoutPromise]);
 
         if (response.text) {
           const parsed = JSON.parse(response.text.trim());
@@ -327,6 +333,41 @@ app.post('/api/ai/assess-water-risk', async (req, res) => {
   } catch (err: any) {
     console.error('Water risk error:', err);
     res.status(500).json({ error: 'Failed to process water risk screening.' });
+  }
+});
+
+// -------------------------------------------------------------
+// n8n Chatbot Webhook Proxy Route
+// -------------------------------------------------------------
+app.post('/api/n8n/chat', async (req, res) => {
+  try {
+    const { action, chatInput, sessionId, metadata } = req.body;
+    const webhookUrl = 'https://energetic.app.n8n.cloud/webhook/c247b46e-148e-49d3-b1cf-04b63765dc3c/chat';
+
+    const n8nResponse = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Instance-Id': '2f0c15313d44a080c1e914712c45616d5586de2f3198c5f3e19b4b41195ee69f'
+      },
+      body: JSON.stringify({
+        action: action || 'sendMessage',
+        chatInput: chatInput || '',
+        sessionId: sessionId || 'session_' + Date.now(),
+        metadata: metadata || {}
+      })
+    });
+
+    if (!n8nResponse.ok) {
+      const errText = await n8nResponse.text();
+      return res.status(n8nResponse.status).json({ error: errText || 'Failed communicating with n8n webhook' });
+    }
+
+    const data = await n8nResponse.json();
+    return res.json(data);
+  } catch (err: any) {
+    console.error('n8n proxy error:', err);
+    res.status(500).json({ error: err.message || 'Internal error connecting to n8n webhook' });
   }
 });
 

@@ -60,38 +60,66 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   
   // Storage keys with fallback to initial data
   const [listings, setListings] = useState<WasteListing[]>(() => {
-    const saved = localStorage.getItem('w2w_listings');
-    return saved ? JSON.parse(saved) : INITIAL_LISTINGS;
+    try {
+      const saved = localStorage.getItem('w2w_listings');
+      return saved ? JSON.parse(saved) : INITIAL_LISTINGS;
+    } catch {
+      return INITIAL_LISTINGS;
+    }
   });
 
   const [facilities, setFacilities] = useState<Facility[]>(() => {
-    const saved = localStorage.getItem('w2w_facilities');
-    return saved ? JSON.parse(saved) : INITIAL_FACILITIES;
+    try {
+      const saved = localStorage.getItem('w2w_facilities');
+      return saved ? JSON.parse(saved) : INITIAL_FACILITIES;
+    } catch {
+      return INITIAL_FACILITIES;
+    }
   });
 
   const [collectionRequests, setCollectionRequests] = useState<CollectionRequest[]>(() => {
-    const saved = localStorage.getItem('w2w_requests');
-    return saved ? JSON.parse(saved) : INITIAL_COLLECTION_REQUESTS;
+    try {
+      const saved = localStorage.getItem('w2w_requests');
+      return saved ? JSON.parse(saved) : INITIAL_COLLECTION_REQUESTS;
+    } catch {
+      return INITIAL_COLLECTION_REQUESTS;
+    }
   });
 
   const [materialRequests, setMaterialRequests] = useState<MaterialRequest[]>(() => {
-    const saved = localStorage.getItem('w2w_mat_requests');
-    return saved ? JSON.parse(saved) : INITIAL_MATERIAL_REQUESTS;
+    try {
+      const saved = localStorage.getItem('w2w_mat_requests');
+      return saved ? JSON.parse(saved) : INITIAL_MATERIAL_REQUESTS;
+    } catch {
+      return INITIAL_MATERIAL_REQUESTS;
+    }
   });
 
   const [lifecycleEvents, setLifecycleEvents] = useState<LifecycleMilestone[]>(() => {
-    const saved = localStorage.getItem('w2w_lifecycle');
-    return saved ? JSON.parse(saved) : INITIAL_LIFECYCLE_EVENTS;
+    try {
+      const saved = localStorage.getItem('w2w_lifecycle');
+      return saved ? JSON.parse(saved) : INITIAL_LIFECYCLE_EVENTS;
+    } catch {
+      return INITIAL_LIFECYCLE_EVENTS;
+    }
   });
 
   const [notifications, setNotifications] = useState<NotificationItem[]>(() => {
-    const saved = localStorage.getItem('w2w_notifications');
-    return saved ? JSON.parse(saved) : INITIAL_NOTIFICATIONS;
+    try {
+      const saved = localStorage.getItem('w2w_notifications');
+      return saved ? JSON.parse(saved) : INITIAL_NOTIFICATIONS;
+    } catch {
+      return INITIAL_NOTIFICATIONS;
+    }
   });
 
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>(() => {
-    const saved = localStorage.getItem('w2w_audit_logs');
-    return saved ? JSON.parse(saved) : INITIAL_AUDIT_LOGS;
+    try {
+      const saved = localStorage.getItem('w2w_audit_logs');
+      return saved ? JSON.parse(saved) : INITIAL_AUDIT_LOGS;
+    } catch {
+      return INITIAL_AUDIT_LOGS;
+    }
   });
 
   const [activeTab, setActiveTab] = useState<string>('home');
@@ -100,29 +128,53 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Persist state changes
+  // Persist state changes safely
   useEffect(() => {
-    localStorage.setItem('w2w_listings', JSON.stringify(listings));
+    try {
+      localStorage.setItem('w2w_listings', JSON.stringify(listings));
+    } catch (e) {
+      console.warn('Failed to save listings to localStorage', e);
+    }
   }, [listings]);
 
   useEffect(() => {
-    localStorage.setItem('w2w_requests', JSON.stringify(collectionRequests));
+    try {
+      localStorage.setItem('w2w_requests', JSON.stringify(collectionRequests));
+    } catch (e) {
+      console.warn('Failed to save requests to localStorage', e);
+    }
   }, [collectionRequests]);
 
   useEffect(() => {
-    localStorage.setItem('w2w_mat_requests', JSON.stringify(materialRequests));
+    try {
+      localStorage.setItem('w2w_mat_requests', JSON.stringify(materialRequests));
+    } catch (e) {
+      console.warn('Failed to save material requests to localStorage', e);
+    }
   }, [materialRequests]);
 
   useEffect(() => {
-    localStorage.setItem('w2w_lifecycle', JSON.stringify(lifecycleEvents));
+    try {
+      localStorage.setItem('w2w_lifecycle', JSON.stringify(lifecycleEvents));
+    } catch (e) {
+      console.warn('Failed to save lifecycle events to localStorage', e);
+    }
   }, [lifecycleEvents]);
 
   useEffect(() => {
-    localStorage.setItem('w2w_notifications', JSON.stringify(notifications));
+    try {
+      localStorage.setItem('w2w_notifications', JSON.stringify(notifications));
+    } catch (e) {
+      console.warn('Failed to save notifications to localStorage', e);
+    }
   }, [notifications]);
 
   useEffect(() => {
-    localStorage.setItem('w2w_audit_logs', JSON.stringify(auditLogs));
+    try {
+      localStorage.setItem('w2w_audit_logs', JSON.stringify(auditLogs));
+    } catch (e) {
+      console.warn('Failed to save audit logs to localStorage', e);
+    }
   }, [auditLogs]);
 
   const switchRole = (role: UserRole) => {

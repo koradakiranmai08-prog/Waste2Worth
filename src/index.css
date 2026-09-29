@@ -45,3 +45,47 @@
   background: #14B8A6;
 }
 
+/* n8n Chat Widget Theme Overrides */
+:root {
+  --chat--color-primary: #22C55E;
+  --chat--color-primary-shade-50: #16A34A;
+  --chat--color-primary-shade-100: #15803D;
+  --chat--color-secondary: #06B6D4;
+  --chat--color-dark: #0B1220;
+  --chat--color-light: #162437;
+  --chat--color-white: #F8FAFC;
+  --chat--color-typing: #22C55E;
+  --chat--border-radius: 14px;
+  --chat--window--width: 410px;
+  --chat--window--height: 600px;
+  --chat--toggle--background: #22C55E;
+  --chat--toggle--hover--background: #16A34A;
+  --chat--toggle--active--background: #15803D;
+  --chat--toggle--color: #0B1220;
+  --chat--toggle--size: 56px;
+  --chat--header--background: #101C2C;
+  --chat--header--color: #F8FAFC;
+  --chat--message--bot--background: #162437;
+  --chat--message--bot--color: #F8FAFC;
+  --chat--message--user--background: #22C55E;
+  --chat--message--user--color: #0B1220;
+}
+
+/* Ensure n8n widget stays above normal content but below top modal overlays */
+.chat-window {
+  border: 1px solid #29394D !important;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px 0 rgba(34, 197, 94, 0.15) !important;
+  background-color: #0B1220 !important;
+  color: #F8FAFC !important;
+}
+
+.chat-toggle {
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.chat-toggle:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 6px 24px rgba(34, 197, 94, 0.6) !important;
+}
+

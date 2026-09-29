@@ -31,7 +31,8 @@ import {
   TrendingUp,
   Activity,
   UserCheck,
-  ShieldCheck
+  ShieldCheck,
+  Bot
 } from 'lucide-react';
 import { MyWasteListings } from '../waste/MyWasteListings';
 import { AiClassificationTool } from '../waste/AiClassificationTool';
@@ -42,6 +43,7 @@ import { LifecycleTracker } from '../lifecycle/LifecycleTracker';
 import { WasteExchange } from '../marketplace/WasteExchange';
 import { ImpactDashboard } from '../impact/ImpactDashboard';
 import { AdminPanel } from '../admin/AdminPanel';
+import { N8nChatView } from '../chat/N8nChatView';
 
 export const IndustryDashboard: React.FC = () => {
   const { 
@@ -100,6 +102,7 @@ export const IndustryDashboard: React.FC = () => {
 
   const sidebarItems = [
     { id: 'overview', label: 'Overview', icon: <LayoutDashboard className="w-4 h-4" /> },
+    { id: 'n8n-assistant', label: 'AI Assistant (n8n)', icon: <Bot className="w-4 h-4 text-[#22C55E]" /> },
     { id: 'listings', label: 'My Waste Listings', icon: <FileText className="w-4 h-4" />, count: listings.length },
     { id: 'ai-classification', label: 'AI Classification Lab', icon: <Sparkles className="w-4 h-4 text-[#06B6D4]" /> },
     { id: 'water-risk', label: 'Water Risk Screener', icon: <Droplets className="w-4 h-4 text-[#06B6D4]" /> },
@@ -236,6 +239,33 @@ export const IndustryDashboard: React.FC = () => {
                   + Add Listing
                 </button>
               </div>
+            </div>
+
+            {/* n8n AI Assistant Banner */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#162437] via-[#101C2C] to-[#162437] border border-[#22C55E]/30 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-xl bg-[#22C55E]/10 border border-[#22C55E]/40 flex items-center justify-center text-[#22C55E] shrink-0">
+                  <Bot className="w-6 h-6 text-[#22C55E]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm sm:text-base font-bold text-[#F8FAFC]">Waste2Worth AI Assistant (n8n Workflow)</h3>
+                    <span className="px-2 py-0.5 text-[10px] font-semibold rounded-full bg-[#22C55E]/20 text-[#22C55E] border border-[#22C55E]/30">
+                      Online
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#A7B4C5] mt-0.5">
+                    Ask questions on industrial wastewater regulations, COD/BOD thresholds, hazardous sludge handling, or authorized recycling pathways.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSidebarTab('n8n-assistant')}
+                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg bg-[#22C55E] hover:bg-[#16A34A] text-[#0B1220] transition-colors shrink-0 shadow-sm cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Launch Assistant</span>
+              </button>
             </div>
 
             {/* 5 Overview Metric Cards */}
@@ -459,6 +489,7 @@ export const IndustryDashboard: React.FC = () => {
         )}
 
         {/* Sub-view Routing */}
+        {sidebarTab === 'n8n-assistant' && <N8nChatView />}
         {sidebarTab === 'listings' && <MyWasteListings onSelectListing={(id) => { setSelectedListingId(id); setSidebarTab('lifecycle'); }} />}
         {sidebarTab === 'ai-classification' && <AiClassificationTool />}
         {sidebarTab === 'water-risk' && <WaterRiskTool />}
